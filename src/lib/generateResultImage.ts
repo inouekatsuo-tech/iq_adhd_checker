@@ -122,10 +122,10 @@ export async function generateResultImage(result: TestResult, appUrl: string): P
   ctx.fillStyle = 'rgba(255,255,255,0.45)';
   ctx.font = '20px "Hiragino Sans", "Noto Sans JP", sans-serif';
   const gaugeLabelY = gaugeY + gaugeH + 26;
-  [['70', '低い', 0], ['85', '平均以下', 0.25], ['100', '平均', 0.5], ['115', '', 0.75], ['130+', '高い', 1]].forEach(([num, lbl, pos]) => {
-    const lx = PAD + gaugeW * Number(pos);
+  ([['70', '低い', 0], ['100', '平均', 0.5], ['130+', '高い', 1]] as [string, string, number][]).forEach(([num, lbl, pos]) => {
+    const lx = PAD + gaugeW * pos;
     ctx.textAlign = pos === 0 ? 'left' : pos === 1 ? 'right' : 'center';
-    ctx.fillText(lbl ? `${num}\n${lbl}` : num, lx, gaugeLabelY);
+    ctx.fillText(`${num} ${lbl}`, lx, gaugeLabelY);
   });
   ctx.textAlign = 'left';
 
