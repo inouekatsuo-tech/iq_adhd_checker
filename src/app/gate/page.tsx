@@ -8,8 +8,8 @@ import { TestResult } from '@/lib/types';
 const HEALTHY_LIFESPAN = { male: 72.57, female: 75.45, other: 74.01 };
 
 // Kanael ストアリンク（本番URLに差し替え）
-const APPSTORE_URL = 'https://apps.apple.com/jp/app/kanael/id6478001951';
-const GOOGLEPLAY_URL = 'https://play.google.com/store/apps/details?id=jp.kanael.app';
+const APPSTORE_URL = 'https://apps.apple.com/jp/app/%E3%82%AB%E3%83%8A%E3%82%A8%E3%83%AB-%E5%A4%A2-%E3%82%84%E3%82%8A%E3%81%9F%E3%81%84%E3%81%93%E3%81%A8%E7%AE%A1%E7%90%86%E3%82%A2%E3%83%97%E3%83%AA/id6742744159';
+const GOOGLEPLAY_URL = 'https://play.google.com/store/apps/details?id=com.kanaeru.kanaeru&pcampaignid=web_share';
 
 export default function GatePage() {
   const router = useRouter();
