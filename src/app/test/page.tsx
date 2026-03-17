@@ -23,25 +23,32 @@ function FigurePattern({ id }: { id: number }) {
     strokeDasharray: isQ ? '4 2' : undefined,
   });
 
-  // Q28: 矢印の回転シーケンス → ↓ ← ↑ → ?
+  // Q28: 3×3矢印グリッド（右へ+90°CW、下へ+90°CW）→↓← / ↓←↑ / ←↑?=→
   if (id === 28) {
-    const symbols = ['→', '↓', '←', '↑', '→', '?'];
+    const grid = [
+      ['→', '↓', '←'],
+      ['↓', '←', '↑'],
+      ['←', '↑', '?'],
+    ];
     return (
       <div className="bg-gray-50 rounded-2xl p-4 mb-6">
-        <svg viewBox="0 0 396 80" className="w-full max-w-sm mx-auto block">
-          {symbols.map((sym, i) => {
-            const cx = 33 + i * 66;
-            const isQ = i === 5;
-            return (
-              <g key={i}>
-                <circle cx={cx} cy={40} r={28} {...cell(isQ)} />
-                <text x={cx} y={49} textAnchor="middle" fontSize={22}
-                  fill={isQ ? '#9CA3AF' : '#4F46E5'} fontFamily="sans-serif">
-                  {sym}
-                </text>
-              </g>
-            );
-          })}
+        <svg viewBox="0 0 204 204" className="w-48 mx-auto block">
+          {grid.map((row, ri) =>
+            row.map((sym, ci) => {
+              const cx = 34 + ci * 68;
+              const cy = 34 + ri * 68;
+              const isQ = sym === '?';
+              return (
+                <g key={`${ri}-${ci}`}>
+                  <rect x={cx - 28} y={cy - 28} width={56} height={56} rx={6} {...cell(isQ)} />
+                  <text x={cx} y={cy + 9} textAnchor="middle" fontSize={22}
+                    fill={isQ ? '#9CA3AF' : '#4F46E5'} fontFamily="sans-serif">
+                    {sym}
+                  </text>
+                </g>
+              );
+            })
+          )}
         </svg>
       </div>
     );
@@ -113,12 +120,12 @@ function FigurePattern({ id }: { id: number }) {
     );
   }
 
-  // Q31: 3×3ラテン方陣 △○□/○□△/□△?
+  // Q31: 対角線ルール △□○ / ○△□ / □○? (斜め方向が同じ形)→?=△
   if (id === 31) {
     const grid = [
-      ['△', '○', '□'],
-      ['○', '□', '△'],
-      ['□', '△', '?'],
+      ['△', '□', '○'],
+      ['○', '△', '□'],
+      ['□', '○', '?'],
     ];
     return (
       <div className="bg-gray-50 rounded-2xl p-4 mb-6">

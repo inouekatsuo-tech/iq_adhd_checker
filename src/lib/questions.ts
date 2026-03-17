@@ -198,9 +198,9 @@ export const questions: Question[] = [
   {
     id: 28,
     category: 'figure',
-    text: '矢印のパターンを見て、「?」に入るものを選んでください。',
+    text: '3×3のマスに矢印が並んでいます。縦・横それぞれの規則を見つけて「?」に入る矢印を選んでください。',
     options: ['↓', '←', '↑', '→'],
-    correctIndex: 0,
+    correctIndex: 3,
     figureId: 28,
   },
   {
@@ -220,9 +220,9 @@ export const questions: Question[] = [
   {
     id: 31,
     category: 'figure',
-    text: '3×3のマスを見てください。各行・各列に△・○・□が1つずつ入ります。「?」に入る図形はどれですか？',
+    text: '3×3のマスを見てください。△・○・□の並び方には隠されたルールがあります。「?」に入る図形はどれですか？',
     options: ['△', '○', '□', '●'],
-    correctIndex: 1,
+    correctIndex: 0,
     figureId: 31,
   },
   {
