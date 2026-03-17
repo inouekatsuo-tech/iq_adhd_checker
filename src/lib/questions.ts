@@ -96,9 +96,9 @@ export const questions: Question[] = [
   {
     id: 14,
     category: 'figure',
-    text: '「医者」は「病院」にいるように、「教師」はどこにいますか？',
-    options: ['図書館', '学校', '公園', '役所'],
-    correctIndex: 1,
+    text: '「建築家」は「設計図」を作るように、「作曲家」は何を作りますか？',
+    options: ['CD', '楽器', '楽譜', '舞台'],
+    correctIndex: 2,
   },
   {
     id: 15,
@@ -124,16 +124,16 @@ export const questions: Question[] = [
   {
     id: 18,
     category: 'figure',
-    text: '「包丁」は「料理人」の道具です。「ペン」は誰の道具ですか？',
-    options: ['音楽家', '画家', '作家', '医者'],
-    correctIndex: 2,
+    text: '「月」は「地球」の周りを回っています。「地球」は何の周りを回っていますか？\n\n※ただし、この関係と同じ「公転の中心」を答えてください。',
+    options: ['月', '太陽', '銀河の中心', '火星'],
+    correctIndex: 1,
   },
   {
     id: 19,
     category: 'figure',
-    text: '次のうち、仲間はずれはどれですか？\nリンゴ・バナナ・ニンジン・ブドウ',
-    options: ['リンゴ', 'バナナ', 'ニンジン', 'ブドウ'],
-    correctIndex: 2,
+    text: '次のうち、仲間はずれはどれですか？\n\n水素・酸素・窒素・食塩',
+    options: ['水素', '酸素', '窒素', '食塩'],
+    correctIndex: 3,
   },
   {
     id: 20,
@@ -244,9 +244,9 @@ export const questions: Question[] = [
   {
     id: 34,
     category: 'figure',
-    text: '「楽観的」の反対は「悲観的」。では「勇気」の反対は何ですか？',
-    options: ['正直', '臆病', '親切', '冷静'],
-    correctIndex: 1,
+    text: '次の4つの言葉の中で、仲間はずれはどれですか？\n\n誠実・謙虚・傲慢・勤勉',
+    options: ['誠実', '謙虚', '傲慢', '勤勉'],
+    correctIndex: 2,
   },
   {
     id: 35,
