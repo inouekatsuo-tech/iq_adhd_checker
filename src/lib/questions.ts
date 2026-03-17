@@ -110,15 +110,15 @@ export const questions: Question[] = [
   {
     id: 16,
     category: 'figure',
-    text: '「暑い」の反対は「寒い」。「速い」の反対は何ですか？',
-    options: ['重い', '遅い', '高い', '長い'],
-    correctIndex: 1,
+    text: '1から100までの整数をすべて足した合計は何ですか？',
+    options: ['4,950', '5,000', '5,050', '5,100'],
+    correctIndex: 2,
   },
   {
     id: 17,
     category: 'figure',
-    text: '「桜」は「花」の一種です。「松」は何の一種ですか？',
-    options: ['草', '木', '花', '果物'],
+    text: '次の4つの数のうち、素数でないものはどれですか？',
+    options: ['37', '51', '73', '97'],
     correctIndex: 1,
   },
   {
@@ -138,9 +138,9 @@ export const questions: Question[] = [
   {
     id: 20,
     category: 'figure',
-    text: '「春 → 夏 → 秋 → 冬 → ?」\n次に来るのは？',
-    options: ['夏', '秋', '春', '冬'],
-    correctIndex: 2,
+    text: '次のアルファベット列の規則を見つけて「?」に入るものを選んでください。\n\nA, C, F, J, O, ?',
+    options: ['T', 'U', 'V', 'W'],
+    correctIndex: 1,
   },
 
   // ===== 数列推論 (7問) WAIS-IV 準拠タイプ =====
@@ -206,18 +206,16 @@ export const questions: Question[] = [
   {
     id: 29,
     category: 'figure',
-    text: '2×2のマスのパターンを見て、「?」に入る図形を選んでください。\n（各行・各列に●と○がそれぞれ1つずつ入ります）',
-    options: ['● （黒丸）', '○ （白丸）', '▲ （三角）', '■ （四角）'],
+    text: '縦・横・斜めの合計がすべて等しい3×3の魔方陣です。「?」に入る数字はどれですか？\n\n[ 2 | 9 | 4 ]\n[ 7 | 5 | 3 ]\n[ 6 | ? | 8 ]',
+    options: ['1', '2', '3', '4'],
     correctIndex: 0,
-    figureId: 29,
   },
   {
     id: 30,
     category: 'figure',
-    text: '各ボックスの中の図形の数のパターンを見て、「?」のボックスに入る数を選んでください。',
-    options: ['12', '14', '16', '25'],
-    correctIndex: 2,
-    figureId: 30,
+    text: '数字のパターンを見つけて「?」に入る数字を選んでください。\n\n16　9　4\n 9　4　1\n 4　1　?',
+    options: ['0', '1', '2', '4'],
+    correctIndex: 0,
   },
   {
     id: 31,
@@ -230,18 +228,16 @@ export const questions: Question[] = [
   {
     id: 32,
     category: 'figure',
-    text: '図形の「形」と「大きさ」が交互に変わるパターンです。「?」に入る図形を選んでください。',
-    options: ['大きい△', '小さい△', '大きい○', '小さい○'],
-    correctIndex: 1,
-    figureId: 32,
+    text: '次の等式の規則を見つけて「?」を求めてください。\n\n1² + 2² = 5\n2² + 3² = 13\n3² + 4² = 25\n4² + 5² = ?',
+    options: ['38', '39', '40', '41'],
+    correctIndex: 3,
   },
   {
     id: 33,
     category: 'figure',
-    text: '3×3のマスを見てください。\n行（横）で図形の種類が、列（縦）で図形の数が変わります。「?」に入るものを選んでください。',
-    options: ['△△△（三角3つ）', '△△（三角2つ）', '○○○（円3つ）', '□□□（四角3つ）'],
+    text: '時計が3時15分を指しています。このとき、長針と短針がなす角度（小さい方）は何度ですか？',
+    options: ['7.5°', '15°', '22.5°', '30°'],
     correctIndex: 0,
-    figureId: 33,
   },
 
   // ===== 難問セクション（Q34-39）難易度：高 =====
@@ -269,17 +265,16 @@ export const questions: Question[] = [
   {
     id: 37,
     category: 'sequence',
-    text: '「?」に入る数字はどれですか？\n\n3, 8, 15, 24, 35, ?',
-    options: ['44', '46', '48', '52'],
+    text: '次の規則を見つけて「?」に入るアルファベットを選んでください。\n\nA(1番目) → B(2番目) → D(4番目) → G(7番目) → K(11番目) → ?(□番目)',
+    options: ['N', 'O', 'P', 'Q'],
     correctIndex: 2,
   },
   {
     id: 38,
     category: 'figure',
-    text: '3×3の数字マトリクスを見てください。\n各行の規則を見つけて「?」に入る数字を選んでください。',
-    options: ['12', '14', '16', '20'],
-    correctIndex: 2,
-    figureId: 38,
+    text: '12人が参加するトーナメント（負けたら失格の1対1形式）があります。優勝者が決まるまでに合計何試合行われますか？',
+    options: ['10試合', '11試合', '12試合', '13試合'],
+    correctIndex: 1,
   },
   {
     id: 39,
