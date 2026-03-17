@@ -14,6 +14,15 @@ export default function LandingPage() {
   // yyyy/mm/dd → yyyy-mm-dd に変換
   const toIsoDate = (val: string) => val.replace(/\//g, '-');
 
+  // 数字だけ入力するとスラッシュを自動挿入: 19770504 → 1977/05/04
+  const handleBirthdateChange = (val: string) => {
+    const digits = val.replace(/\D/g, '').slice(0, 8);
+    let formatted = digits;
+    if (digits.length > 4) formatted = digits.slice(0, 4) + '/' + digits.slice(4);
+    if (digits.length > 6) formatted = digits.slice(0, 4) + '/' + digits.slice(4, 6) + '/' + digits.slice(6);
+    setBirthdate(formatted);
+  };
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'お名前を入力してください';
@@ -47,20 +56,20 @@ export default function LandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-indigo-600 via-indigo-500 to-purple-600">
-      <div className="max-w-2xl mx-auto px-4 py-10">
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
+      <div className="max-w-2xl mx-auto px-4 py-12">
 
         {/* ヒーロー */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-10">
           <div className="text-6xl mb-4">🧠</div>
-          <h1 className="text-3xl font-bold text-white mb-3 leading-tight">
+          <h1 className="text-4xl font-bold mb-3" style={{ color: '#111827' }}>
             ADHD × IQ 診断テスト
           </h1>
-          <p className="text-indigo-100 text-base">WHO公認スケール（ASRS-v1.1）準拠</p>
+          <p className="text-lg" style={{ color: '#6b7280' }}>WHO公認スケール（ASRS-v1.1）準拠</p>
         </div>
 
         {/* 特徴カード */}
-        <div className="grid grid-cols-3 gap-3 mb-8">
+        <div className="grid grid-cols-3 gap-3 mb-10">
           {[
             { icon: '📋', title: '39問', sub: 'ADHD12 + IQ27' },
             { icon: '⏱️', title: '約12分', sub: '完走率重視設計' },
@@ -68,11 +77,11 @@ export default function LandingPage() {
           ].map((f) => (
             <div
               key={f.title}
-              className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 text-center border border-white/20"
+              className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100"
             >
               <div className="text-3xl mb-1">{f.icon}</div>
-              <div className="font-bold text-white text-sm">{f.title}</div>
-              <div className="text-xs text-indigo-100">{f.sub}</div>
+              <div className="font-bold text-sm" style={{ color: '#111827' }}>{f.title}</div>
+              <div className="text-xs" style={{ color: '#6b7280' }}>{f.sub}</div>
             </div>
           ))}
         </div>
@@ -105,8 +114,8 @@ export default function LandingPage() {
             <input
               type="text"
               value={birthdate}
-              onChange={(e) => setBirthdate(e.target.value)}
-              placeholder="例：1977/05/04"
+              onChange={(e) => handleBirthdateChange(e.target.value)}
+              placeholder="例：19770504"
               inputMode="numeric"
               maxLength={10}
               style={{ color: '#111111', backgroundColor: '#ffffff', WebkitTextFillColor: '#111111' }}
