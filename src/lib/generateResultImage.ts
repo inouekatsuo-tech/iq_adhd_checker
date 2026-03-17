@@ -25,11 +25,16 @@ const ADHD_COLORS: Record<string, string> = {
   high:     '#ef4444',
 };
 
+const AGE_LABELS: Record<string, string> = {
+  teens: '10代', twenties: '20代', thirties: '30代',
+  forties: '40代', fifties: '50代', sixties_plus: '60代以上',
+};
+
 export async function generateResultImage(result: TestResult, appUrl: string): Promise<string> {
-  // 日本語フォントをロード
   await document.fonts.load('bold 80px "Hiragino Sans", "Noto Sans JP", sans-serif');
 
-  const W = 1200, H = 630;
+  // ── 縦長カード（スマホ向け） ──
+  const W = 630, H = 960;
   const canvas = document.createElement('canvas');
   canvas.width = W;
   canvas.height = H;
@@ -37,127 +42,127 @@ export async function generateResultImage(result: TestResult, appUrl: string): P
 
   // ── 背景グラデーション ──
   const bg = ctx.createLinearGradient(0, 0, W, H);
-  bg.addColorStop(0, '#3730a3');   // indigo-800
-  bg.addColorStop(0.45, '#6d28d9'); // violet-800
-  bg.addColorStop(1, '#4c1d95');   // violet-900
+  bg.addColorStop(0,    '#3730a3');
+  bg.addColorStop(0.5,  '#6d28d9');
+  bg.addColorStop(1,    '#4c1d95');
   ctx.fillStyle = bg;
   ctx.fillRect(0, 0, W, H);
 
-  // ── 右側 装飾サークル ──
+  // ── 装飾サークル ──
   ctx.save();
-  ctx.globalAlpha = 0.06;
+  ctx.globalAlpha = 0.07;
   ctx.fillStyle = '#ffffff';
-  ctx.beginPath();
-  ctx.arc(W - 80, 80, 280, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.arc(W - 30, 200, 180, 0, Math.PI * 2);
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(W - 60, 60, 200, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(80, H - 80, 160, 0, Math.PI * 2); ctx.fill();
   ctx.restore();
 
+  const PAD = 48;
+
   // ── アプリブランド（左上） ──
-  ctx.fillStyle = 'rgba(255,255,255,0.55)';
-  ctx.font = '30px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText('ADHD × IQ 診断', 72, 72);
+  ctx.fillStyle = 'rgba(255,255,255,0.5)';
+  ctx.font = '26px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('ADHD × IQ 診断', PAD, 58);
 
   // ── ユーザー名（右上） ──
+  const ageLabel = AGE_LABELS[result.userInfo.ageGroup] || '';
   const genderLabel = result.userInfo.gender === 'male' ? '男性' : result.userInfo.gender === 'female' ? '女性' : 'その他';
-  const nameLabel = `${result.userInfo.name}さん（${result.userInfo.age}歳・${genderLabel}）`;
+  const nameLabel = `${result.userInfo.name}さん（${ageLabel}・${genderLabel}）`;
   ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.font = '28px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.font = '24px "Hiragino Sans", "Noto Sans JP", sans-serif';
   ctx.textAlign = 'right';
-  ctx.fillText(nameLabel, W - 72, 72);
+  ctx.fillText(nameLabel, W - PAD, 58);
   ctx.textAlign = 'left';
 
-  // ── IQラベル ──
-  ctx.fillStyle = 'rgba(255,255,255,0.65)';
-  ctx.font = '36px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText('推定 IQ スコア', 72, 155);
+  // ── 区切り線 ──
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  ctx.fillRect(PAD, 76, W - PAD * 2, 1);
 
-  // ── IQスコア（超大） ──
+  // ── IQラベル ──
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.font = '30px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('推定 IQ スコア', PAD, 130);
+
+  // ── IQスコア（大） ──
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 210px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText(result.iqScore.toString(), 65, 390);
+  ctx.font = 'bold 200px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillText(result.iqScore.toString(), PAD - 8, 340);
 
   // ── パーセンタイルバッジ ──
-  const iqTextW = ctx.measureText(result.iqScore.toString()).width;
-  const badgeX = 72 + iqTextW + 28;
-  const badgeY = 270;
-  const badgeW = 320;
-  const badgeH = 60;
-  ctx.fillStyle = 'rgba(255,255,255,0.22)';
-  roundRect(ctx, badgeX, badgeY, badgeW, badgeH, 30);
+  const badgeW = 280, badgeH = 52, badgeX = PAD, badgeY = 360;
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  roundRect(ctx, badgeX, badgeY, badgeW, badgeH, 26);
   ctx.fill();
   ctx.fillStyle = '#ffffff';
-  ctx.font = 'bold 30px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.font = 'bold 26px "Hiragino Sans", "Noto Sans JP", sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(result.iqPercentileText, badgeX + badgeW / 2, badgeY + 40);
+  ctx.fillText(result.iqPercentileText, badgeX + badgeW / 2, badgeY + 35);
+  ctx.textAlign = 'left';
+
+  // ── IQ ゲージバー ──
+  const gaugeY = 440, gaugeH = 18;
+  const gaugeW = W - PAD * 2;
+  const iqPct = Math.min(1, Math.max(0, (result.iqScore - 70) / 60));
+
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
+  roundRect(ctx, PAD, gaugeY, gaugeW, gaugeH, gaugeH / 2);
+  ctx.fill();
+
+  if (iqPct > 0) {
+    const grad = ctx.createLinearGradient(PAD, 0, PAD + gaugeW, 0);
+    grad.addColorStop(0, '#a5b4fc');
+    grad.addColorStop(1, '#f0abfc');
+    ctx.fillStyle = grad;
+    roundRect(ctx, PAD, gaugeY, Math.max(gaugeH, gaugeW * iqPct), gaugeH, gaugeH / 2);
+    ctx.fill();
+  }
+
+  // ゲージラベル
+  ctx.fillStyle = 'rgba(255,255,255,0.45)';
+  ctx.font = '20px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  const gaugeLabelY = gaugeY + gaugeH + 26;
+  [['70', '低い', 0], ['85', '平均以下', 0.25], ['100', '平均', 0.5], ['115', '', 0.75], ['130+', '高い', 1]].forEach(([num, lbl, pos]) => {
+    const lx = PAD + gaugeW * Number(pos);
+    ctx.textAlign = pos === 0 ? 'left' : pos === 1 ? 'right' : 'center';
+    ctx.fillText(lbl ? `${num}\n${lbl}` : num, lx, gaugeLabelY);
+  });
   ctx.textAlign = 'left';
 
   // ── ADHDカード ──
-  const cardX = 72, cardY = 430, cardW = 520, cardH = 138, cardR = 22;
+  const cardX = PAD, cardY = 530, cardW = W - PAD * 2, cardH = 180, cardR = 20;
   ctx.fillStyle = 'rgba(255,255,255,0.1)';
   roundRect(ctx, cardX, cardY, cardW, cardH, cardR);
   ctx.fill();
 
   // ADHDラベル
   ctx.fillStyle = 'rgba(255,255,255,0.55)';
-  ctx.font = '26px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText('ADHD 傾向チェック', cardX + 24, cardY + 42);
+  ctx.font = '24px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillText('ADHD 傾向チェック', cardX + 24, cardY + 44);
+
+  // 該当数（右上）
+  ctx.fillStyle = ADHD_COLORS[result.adhdLevel] || '#10b981';
+  ctx.font = 'bold 28px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(`${result.adhdPositiveCount}/12`, cardX + cardW - 24, cardY + 44);
+  ctx.textAlign = 'left';
 
   // ADHD 結果テキスト
   ctx.fillStyle = ADHD_COLORS[result.adhdLevel] || '#10b981';
-  ctx.font = 'bold 46px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText(result.adhdType, cardX + 24, cardY + 108);
+  ctx.font = 'bold 52px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillText(result.adhdType, cardX + 24, cardY + 116);
 
-  // 該当数
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.font = '26px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.textAlign = 'right';
-  ctx.fillText(`${result.adhdPositiveCount}/12`, cardX + cardW - 24, cardY + 108);
-  ctx.textAlign = 'left';
-
-  // ── IQ ゲージバー ──
-  const gaugeX = cardX + cardW + 48;
-  const gaugeY = 430;
-  const gaugeW = W - gaugeX - 72;
-  const gaugeH = 22;
-  const iqPct = Math.min(1, Math.max(0, (result.iqScore - 70) / 60));
-
-  // バー背景
-  ctx.fillStyle = 'rgba(255,255,255,0.15)';
-  roundRect(ctx, gaugeX, gaugeY, gaugeW, gaugeH, gaugeH / 2);
-  ctx.fill();
-
-  // バー値
-  if (iqPct > 0) {
-    const grad2 = ctx.createLinearGradient(gaugeX, 0, gaugeX + gaugeW, 0);
-    grad2.addColorStop(0, '#a5b4fc');
-    grad2.addColorStop(1, '#f0abfc');
-    ctx.fillStyle = grad2;
-    roundRect(ctx, gaugeX, gaugeY, Math.max(gaugeH, gaugeW * iqPct), gaugeH, gaugeH / 2);
-    ctx.fill();
-  }
-
-  // ゲージラベル
-  ctx.fillStyle = 'rgba(255,255,255,0.4)';
-  ctx.font = '22px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  const gaugeLabelY = gaugeY + gaugeH + 28;
-  const labels = [['70','低い'], ['100','平均'], ['130+','高い']];
-  const positions = [0, 0.5, 1];
-  labels.forEach(([num, lbl], i) => {
-    const lx = gaugeX + gaugeW * positions[i];
-    ctx.textAlign = i === 0 ? 'left' : i === 2 ? 'right' : 'center';
-    ctx.fillText(`${num} ${lbl}`, lx, gaugeLabelY);
-  });
-  ctx.textAlign = 'left';
+  // ADHD 説明（小さく）
+  ctx.fillStyle = 'rgba(255,255,255,0.55)';
+  ctx.font = '20px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillText('※このチェックは参考値です', cardX + 24, cardY + 158);
 
   // ── ハッシュタグ・URL（下部） ──
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  ctx.font = '25px "Hiragino Sans", "Noto Sans JP", sans-serif';
-  ctx.fillText('#ADHD診断  #IQテスト', 72, H - 36);
+  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.font = '22px "Hiragino Sans", "Noto Sans JP", sans-serif';
+  ctx.fillText('#ADHD診断  #IQテスト', PAD, H - 32);
   ctx.textAlign = 'right';
-  ctx.fillText(appUrl.replace('https://', ''), W - 72, H - 36);
+  ctx.fillText(appUrl.replace('https://', ''), W - PAD, H - 32);
   ctx.textAlign = 'left';
 
   return canvas.toDataURL('image/png');
