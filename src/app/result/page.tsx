@@ -38,10 +38,22 @@ function ResultContent() {
     setSaving(true);
     try {
       const dataUrl = await generateResultImage(result, appUrl);
-      const link = document.createElement('a');
-      link.download = 'adhd_iq_result.png';
-      link.href = dataUrl;
-      link.click();
+      // iOS Safari は download 属性が効かないため新しいタブで開く
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (isIOS) {
+        const newTab = window.open();
+        if (newTab) {
+          newTab.document.write(`<img src="${dataUrl}" style="max-width:100%;display:block;margin:auto;" /><p style="text-align:center;font-family:sans-serif;color:#555;font-size:14px;">画像を長押しして「写真に保存」を選んでください</p>`);
+          newTab.document.close();
+        } else {
+          alert('ポップアップがブロックされました。ブラウザの設定でポップアップを許可してください。');
+        }
+      } else {
+        const link = document.createElement('a');
+        link.download = 'adhd_iq_result.png';
+        link.href = dataUrl;
+        link.click();
+      }
     } catch (e) {
       console.error(e);
       alert('画像の保存に失敗しました。スクリーンショットをご利用ください。');
