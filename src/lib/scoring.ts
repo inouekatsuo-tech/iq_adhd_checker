@@ -106,26 +106,27 @@ function scoreIQ(
 
   // 正答数 → ベースIQ テーブル（27問版）
   // 13-14正解 ≈ IQ100（平均）、7正解 ≈ IQ83（4択ランダム正解率相当）
+  // 27問4択の限界: 全問正解でも IQ128 が現実的上限
   const iqTable: Record<number, number> = {
     0: 63,  1: 66,  2: 69,  3: 72,  4: 75,  5: 78,
     6: 81,  7: 83,  8: 85,  9: 87,  10: 89, 11: 92,
     12: 95, 13: 98, 14: 101, 15: 103, 16: 105, 17: 107,
-    18: 109, 19: 111, 20: 114, 21: 117, 22: 120, 23: 123,
-    24: 126, 25: 130, 26: 134, 27: 138,
+    18: 109, 19: 111, 20: 113, 21: 115, 22: 117, 23: 119,
+    24: 121, 25: 123, 26: 126, 27: 128,
   };
 
   // 年齢補正（流動性知能は20代がピーク → 年上ほど加点）
   const ageAdj: Record<AgeGroup, number> = {
     '10s': -2,
     '20s': 0,
-    '30s': 3,
-    '40s': 6,
-    '50s': 10,
-    '60plus': 14,
+    '30s': 2,
+    '40s': 4,
+    '50s': 6,
+    '60plus': 8,
   };
 
   const baseIQ = iqTable[correct] ?? 68;
-  const finalIQ = Math.min(145, Math.max(60, baseIQ + ageAdj[ageGroup]));
+  const finalIQ = Math.min(130, Math.max(60, baseIQ + ageAdj[ageGroup]));
   const percentile = iqToPercentile(finalIQ);
 
   const ageLabel: Record<AgeGroup, string> = {
