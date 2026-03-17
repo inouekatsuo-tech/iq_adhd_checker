@@ -96,7 +96,7 @@ function ResultContent() {
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900">診断結果</h1>
           <p className="text-gray-500 text-sm mt-1">
-            {result.userInfo.name}さん（{AGE_LABELS[result.userInfo.ageGroup]}・{genderLabel}）
+            {result.userInfo.name}さん（{genderLabel}）
           </p>
         </div>
 

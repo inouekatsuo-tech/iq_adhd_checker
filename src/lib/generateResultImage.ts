@@ -67,7 +67,7 @@ export async function generateResultImage(result: TestResult, appUrl: string): P
   // ── ユーザー名（右上） ──
   const ageLabel = AGE_LABELS[result.userInfo.ageGroup] || '';
   const genderLabel = result.userInfo.gender === 'male' ? '男性' : result.userInfo.gender === 'female' ? '女性' : 'その他';
-  const nameLabel = `${result.userInfo.name}さん（${ageLabel}・${genderLabel}）`;
+  const nameLabel = `${result.userInfo.name}さん（${genderLabel}）`;
   ctx.fillStyle = 'rgba(255,255,255,0.45)';
   ctx.font = '24px "Hiragino Sans", "Noto Sans JP", sans-serif';
   ctx.textAlign = 'right';
