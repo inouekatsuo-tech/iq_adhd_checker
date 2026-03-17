@@ -43,7 +43,7 @@ function ResultContent() {
       if (isIOS) {
         const newTab = window.open();
         if (newTab) {
-          newTab.document.write(`<img src="${dataUrl}" style="max-width:100%;display:block;margin:auto;" /><p style="text-align:center;font-family:sans-serif;color:#555;font-size:14px;">画像を長押しして「写真に保存」を選んでください</p>`);
+          newTab.document.write(`<img src="${dataUrl}" style="max-width:100%;display:block;margin:auto;" /><p style="text-align:center;font-family:sans-serif;color:#333;font-size:42px;font-weight:bold;padding:20px;">画像を長押しして「写真に保存」を選んでください</p>`);
           newTab.document.close();
         } else {
           alert('ポップアップがブロックされました。ブラウザの設定でポップアップを許可してください。');

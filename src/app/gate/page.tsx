@@ -109,11 +109,8 @@ export default function GatePage() {
               <span className="font-bold text-indigo-700">叶う率が大幅にアップ</span>しています！
             </p>
             <div className="bg-indigo-50 rounded-2xl px-4 py-3 mb-4">
-              <p className="text-indigo-800 font-bold text-sm mb-1">
-                ▶️ 自分の夢を1つだけ登録する
-              </p>
-              <p className="text-gray-500 text-xs">
-                叶えたいこと管理は
+              <p className="text-gray-700 text-sm">
+                5000以上の夢も見えて、叶え方も分かる、夢管理アプリ
                 <span className="text-purple-600 font-bold">【カナエル】</span>
               </p>
             </div>
