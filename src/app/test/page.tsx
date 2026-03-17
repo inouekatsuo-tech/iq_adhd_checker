@@ -344,7 +344,8 @@ export default function TestPage() {
         };
         fetch(webhookUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload),
         }).catch(() => {}); // エラーは無視
       }
