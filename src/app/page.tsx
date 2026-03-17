@@ -11,12 +11,18 @@ export default function LandingPage() {
   const [gender, setGender] = useState<'male' | 'female' | 'other' | ''>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // yyyy/mm/dd → yyyy-mm-dd に変換
+  const toIsoDate = (val: string) => val.replace(/\//g, '-');
+
   const validate = () => {
     const e: Record<string, string> = {};
     if (!name.trim()) e.name = 'お名前を入力してください';
-    if (!birthdate) e.birthdate = '生年月日を選択してください';
-    else {
-      const age = calculateAge(birthdate);
+    if (!birthdate) {
+      e.birthdate = '生年月日を入力してください';
+    } else if (!/^\d{4}\/\d{2}\/\d{2}$/.test(birthdate)) {
+      e.birthdate = '形式: 1977/05/04 で入力してください';
+    } else {
+      const age = calculateAge(toIsoDate(birthdate));
       if (age < 10 || age > 100) e.birthdate = '有効な生年月日を入力してください';
     }
     if (!gender) e.gender = '性別を選択してください';
@@ -29,9 +35,10 @@ export default function LandingPage() {
       setErrors(e);
       return;
     }
-    const age = calculateAge(birthdate);
+    const isoDate = toIsoDate(birthdate);
+    const age = calculateAge(isoDate);
     const ageGroup = getAgeGroup(age);
-    const userInfo = { name: name.trim(), birthdate, gender, age, ageGroup };
+    const userInfo = { name: name.trim(), birthdate: isoDate, gender, age, ageGroup };
     localStorage.setItem('userInfo', JSON.stringify(userInfo));
     localStorage.removeItem('testAnswers');
     localStorage.removeItem('testResult');
@@ -84,7 +91,7 @@ export default function LandingPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="例：田中太郎"
-              style={{ color: '#111111', backgroundColor: '#ffffff' }}
+              style={{ color: '#111111', backgroundColor: '#ffffff', WebkitTextFillColor: '#111111' }}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -96,11 +103,13 @@ export default function LandingPage() {
               生年月日
             </label>
             <input
-              type="date"
+              type="text"
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
-              max={new Date().toISOString().split('T')[0]}
-              style={{ color: '#111111', backgroundColor: '#ffffff' }}
+              placeholder="例：1977/05/04"
+              inputMode="numeric"
+              maxLength={10}
+              style={{ color: '#111111', backgroundColor: '#ffffff', WebkitTextFillColor: '#111111' }}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {errors.birthdate && <p className="text-red-500 text-sm mt-1">{errors.birthdate}</p>}
