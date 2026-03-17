@@ -40,20 +40,20 @@ export default function LandingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50">
-      <div className="max-w-2xl mx-auto px-4 py-12">
+    <main className="min-h-screen bg-gradient-to-b from-indigo-600 via-indigo-500 to-purple-600">
+      <div className="max-w-2xl mx-auto px-4 py-10">
 
         {/* ヒーロー */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <div className="text-6xl mb-4">🧠</div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="text-3xl font-bold text-white mb-3 leading-tight">
             ADHD × IQ 診断テスト
           </h1>
-          <p className="text-gray-500 text-lg">WHO公認スケール（ASRS-v1.1）準拠</p>
+          <p className="text-indigo-100 text-base">WHO公認スケール（ASRS-v1.1）準拠</p>
         </div>
 
         {/* 特徴カード */}
-        <div className="grid grid-cols-3 gap-3 mb-10">
+        <div className="grid grid-cols-3 gap-3 mb-8">
           {[
             { icon: '📋', title: '39問', sub: 'ADHD12 + IQ27' },
             { icon: '⏱️', title: '約12分', sub: '完走率重視設計' },
@@ -61,11 +61,11 @@ export default function LandingPage() {
           ].map((f) => (
             <div
               key={f.title}
-              className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100"
+              className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 text-center border border-white/20"
             >
               <div className="text-3xl mb-1">{f.icon}</div>
-              <div className="font-bold text-gray-900 text-sm">{f.title}</div>
-              <div className="text-xs text-gray-500">{f.sub}</div>
+              <div className="font-bold text-white text-sm">{f.title}</div>
+              <div className="text-xs text-indigo-100">{f.sub}</div>
             </div>
           ))}
         </div>
@@ -76,7 +76,7 @@ export default function LandingPage() {
 
           {/* 名前 */}
           <div className="mb-5">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>
               お名前（ニックネーム可）
             </label>
             <input
@@ -84,6 +84,7 @@ export default function LandingPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="例：田中太郎"
+              style={{ color: '#111111', backgroundColor: '#ffffff' }}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
@@ -91,7 +92,7 @@ export default function LandingPage() {
 
           {/* 生年月日 */}
           <div className="mb-5">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>
               生年月日
             </label>
             <input
@@ -99,6 +100,7 @@ export default function LandingPage() {
               value={birthdate}
               onChange={(e) => setBirthdate(e.target.value)}
               max={new Date().toISOString().split('T')[0]}
+              style={{ color: '#111111', backgroundColor: '#ffffff' }}
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             {errors.birthdate && <p className="text-red-500 text-sm mt-1">{errors.birthdate}</p>}
@@ -106,7 +108,7 @@ export default function LandingPage() {
 
           {/* 性別 */}
           <div className="mb-8">
-            <label className="block text-sm font-medium text-gray-700 mb-2">性別</label>
+            <label className="block text-sm font-medium mb-2" style={{ color: '#374151' }}>性別</label>
             <div className="grid grid-cols-3 gap-3">
               {[
                 { value: 'male', label: '男性', icon: '👨' },
@@ -116,11 +118,12 @@ export default function LandingPage() {
                 <button
                   key={opt.value}
                   onClick={() => setGender(opt.value as 'male' | 'female' | 'other')}
-                  className={`py-3 rounded-xl border-2 transition-all font-medium text-sm ${
-                    gender === opt.value
-                      ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                      : 'border-gray-200 text-gray-600 hover:border-gray-300'
-                  }`}
+                  style={{
+                      color: gender === opt.value ? '#4338ca' : '#4b5563',
+                      backgroundColor: gender === opt.value ? '#eef2ff' : '#ffffff',
+                      borderColor: gender === opt.value ? '#6366f1' : '#e5e7eb',
+                    }}
+                    className="py-3 rounded-xl border-2 transition-all font-medium text-sm"
                 >
                   <div className="text-xl mb-1">{opt.icon}</div>
                   {opt.label}
