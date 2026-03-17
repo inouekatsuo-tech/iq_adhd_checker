@@ -325,6 +325,30 @@ export default function TestPage() {
       const storedUserInfo: UserInfo = JSON.parse(localStorage.getItem('userInfo') || '{}');
       const result = calculateResults(storedUserInfo, newAnswers as number[]);
       localStorage.setItem('testResult', JSON.stringify(result));
+
+      // Google Sheets にデータ送信（バックグラウンド・エラーは無視）
+      const webhookUrl = process.env.NEXT_PUBLIC_SHEETS_WEBHOOK;
+      if (webhookUrl) {
+        const payload = {
+          timestamp: new Date().toISOString(),
+          name: result.userInfo.name,
+          age: result.userInfo.age,
+          gender: result.userInfo.gender === 'male' ? '男性' : result.userInfo.gender === 'female' ? '女性' : 'その他',
+          iqScore: result.iqScore,
+          iqRaw: result.iqRaw,
+          iqPercentile: result.iqPercentile,
+          adhdLevel: result.adhdLevel,
+          adhdType: result.adhdType,
+          adhdPositiveCount: result.adhdPositiveCount,
+          ageGroup: result.userInfo.ageGroup,
+        };
+        fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }).catch(() => {}); // エラーは無視
+      }
+
       router.push('/gate');
     }
   };
